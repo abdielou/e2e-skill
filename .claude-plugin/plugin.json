@@ -1,0 +1,9 @@
+{
+  "name": "e2e",
+  "description": "Discover coverage gaps, author human-readable scenarios, and generate/run Playwright E2E tests with AI.",
+  "version": "1.0.0",
+  "author": {
+    "name": "abdielou"
+  },
+  "repository": "https://github.com/abdielou/e2e-skill"
+}
