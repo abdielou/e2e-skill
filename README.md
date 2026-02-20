@@ -2,7 +2,7 @@
 
 Discover coverage gaps, author human-readable scenarios, and generate/run Playwright E2E tests — all from Claude Code.
 
-> **A note from the human:** Obviously built by an ai agent, directed by a human. My goal was to make E2E testing as human-friendly as possible. The starting point is the **scenario file** — a plain-English scenario doc that the agent consumes to build Playwright specs. That's what you want to mess with if you need to. But the whole flow can be fully automated: let the agent explore your app, build the scenarios, generate the specs, and run them. Enjoy!
+> **A note from the human:** Obviously built by AI, directed by a human. My goal was to make E2E testing as human-friendly as possible. The starting point is the **scenario file** — a plain-English scenario doc that the agent consumes to build Playwright specs. That's what you want to mess with if you need to. But the whole flow can be fully automated: let the agent explore your app, build the scenarios, generate the specs, and run them.
 
 ## Installation
 
