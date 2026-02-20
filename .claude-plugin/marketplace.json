@@ -1,4 +1,5 @@
 {
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "abdielou-e2e-skill",
   "owner": {
     "name": "abdielou"
@@ -7,8 +8,11 @@
     {
       "name": "e2e",
       "description": "Discover coverage gaps, author human-readable scenarios, and generate/run Playwright E2E tests with AI.",
-      "source": ".",
-      "version": "1.0.0"
+      "source": "./",
+      "version": "1.0.0",
+      "author": {
+        "name": "abdielou"
+      }
     }
   ]
 }
