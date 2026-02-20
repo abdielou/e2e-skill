@@ -1,9 +1,17 @@
 {
+  "name": "e2e-skill",
+  "owner": {
+    "name": "abdielou",
+    "url": "https://github.com/abdielou"
+  },
   "plugins": [
     {
       "name": "e2e",
       "description": "Discover coverage gaps, author human-readable scenarios, and generate/run Playwright E2E tests with AI.",
-      "path": "."
+      "source": {
+        "type": "local",
+        "path": "."
+      }
     }
   ]
 }
