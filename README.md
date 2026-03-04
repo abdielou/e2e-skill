@@ -175,13 +175,13 @@ e2e-skill/
       rules-general.md       # Rules 1-9 (all modes)
       rules-run.md           # Rules 10-21 + limitations (run mode)
     dashboard/
-      SKILL.md               # /e2e:dashboard
+      dashboard.md           # /e2e:dashboard
     explore/
-      SKILL.md               # /e2e:explore
+      explore.md             # /e2e:explore
     build/
-      SKILL.md               # /e2e:build
+      build.md               # /e2e:build
     run/
-      SKILL.md               # /e2e:run
+      run.md                 # /e2e:run
       run-generate.md        # Spec generation phases (1-7)
 ```
 

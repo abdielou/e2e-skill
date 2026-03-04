@@ -1,6 +1,6 @@
 # Run Mode — Spec Generation (Phases 1-7)
 
-**This file is loaded when no existing spec is found.** Continue from Phase 0 in `SKILL.md`.
+**This file is loaded when no existing spec is found.** Continue from Phase 0 in `run.md`.
 
 ---
 
@@ -372,7 +372,7 @@ Before reporting success, **run the generated spec to verify it works**:
 
 ## Phase 7: Report Results
 
-Display results using the **Standard Results Table** (defined in `SKILL.md`).
+Display results using the **Standard Results Table** (defined in `run.md`).
 
 After generation, also include the exploration issues section.
 
@@ -418,4 +418,4 @@ After generation, also include the exploration issues section.
 
 **Important**: Always include the Issues section, even if empty. This gives the user confidence that exploration was thorough. If issues were found, they represent valuable QA feedback beyond just the generated test.
 
-After reporting, proceed to **Phase 8: Cleanup** (in `SKILL.md`).
+After reporting, proceed to **Phase 8: Cleanup** (in `run.md`).
