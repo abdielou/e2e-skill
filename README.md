@@ -8,7 +8,15 @@ Discover coverage gaps, author human-readable scenarios, and generate/run Playwr
 
 ### As a plugin (recommended)
 
-Add the marketplace and install:
+**Option A — Interactive UI:**
+
+```bash
+/plugin
+```
+
+Go to the **Marketplaces** tab, add `abdielou/e2e-skill`, then switch to **Discover** and install `e2e`.
+
+**Option B — CLI:**
 
 ```bash
 /plugin marketplace add abdielou/e2e-skill
@@ -126,22 +134,17 @@ Set on first run, or reset by deleting `e2e-scenarios/.config/model-profile.txt`
 
 ## Updating
 
-To update to the latest version:
-
 ```bash
-/plugin install e2e@abdielou-e2e-skill
+/plugin update e2e@abdielou-e2e-skill
 ```
 
-If the update doesn't take effect (old commands still appear), clear the plugin cache and reinstall:
+Or open `/plugin`, go to the **Installed** tab, and update from there.
+
+If the update doesn't take effect, clear the cache and reinstall:
 
 ```bash
-# Remove cached plugin data
-rm -rf ~/.claude/plugins/marketplaces/abdielou-e2e-skill
 rm -rf ~/.claude/plugins/cache/abdielou-e2e-skill
-
-# Re-add marketplace and reinstall
-/plugin marketplace add abdielou/e2e-skill
-/plugin install e2e@abdielou-e2e-skill
+/plugin update e2e@abdielou-e2e-skill
 ```
 
 ### Migrating from v1 to v2
