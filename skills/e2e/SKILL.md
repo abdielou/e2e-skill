@@ -1,3 +1,9 @@
+---
+name: e2e
+description: Discover test coverage gaps, author human-readable test scenarios, and generate/run Playwright E2E tests. Use when user says "e2e tests", "test coverage", "write e2e", "run e2e", "playwright tests", "test scenarios", or "coverage gaps". Do NOT use for unit tests, API tests, load testing, or performance testing.
+compatibility: Requires an MCP-capable agent with @playwright/mcp server connected. Node.js and @playwright/test must be installed.
+---
+
 # E2E Testing
 
 Discover coverage gaps, author human-readable scenarios, and generate/run Playwright tests.
