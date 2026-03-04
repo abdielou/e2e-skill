@@ -1,6 +1,6 @@
-# E2E Testing Skill for Claude Code
+# E2E Testing Skill
 
-Discover coverage gaps, author human-readable scenarios, and generate/run Playwright E2E tests — all from Claude Code.
+Discover coverage gaps, author human-readable scenarios, and generate/run Playwright E2E tests — powered by any MCP-capable agent with [@anthropic-ai/playwright-mcp](https://github.com/anthropics/playwright-mcp).
 
 > **A note from the human:** Obviously built by AI, directed by a human. My goal was to make E2E testing as human-friendly as possible. The starting point is the **scenario file** — a plain-English scenario doc that the agent consumes to build Playwright specs. That's what you want to mess with if you need to. But the whole flow can be fully automated: let the agent explore your app, build the scenarios, generate the specs, and run them.
 
@@ -123,6 +123,39 @@ Control cost vs quality for AI subagents:
 | **Economy**   | Sonnet  | Sonnet | Sonnet    | Haiku          |
 
 Set on first run, or reset by deleting `e2e-scenarios/.config/model-profile.txt`.
+
+## Updating
+
+To update to the latest version:
+
+```bash
+/plugin install e2e@abdielou-e2e-skill
+```
+
+If the update doesn't take effect (old commands still appear), clear the plugin cache and reinstall:
+
+```bash
+# Remove cached plugin data
+rm -rf ~/.claude/plugins/marketplaces/abdielou-e2e-skill
+rm -rf ~/.claude/plugins/cache/abdielou-e2e-skill
+
+# Re-add marketplace and reinstall
+/plugin marketplace add abdielou/e2e-skill
+/plugin install e2e@abdielou-e2e-skill
+```
+
+### Migrating from v1 to v2
+
+v2.0.0 split the single skill into four. Update your muscle memory:
+
+| v1 | v2 |
+|----|-----|
+| `/e2e:e2e` (no args) | `/e2e:dashboard` |
+| `/e2e:e2e explore` | `/e2e:explore` |
+| `/e2e:e2e build <topic>` | `/e2e:build <topic>` |
+| `/e2e:e2e <area>/<scenario>` | `/e2e:run <area>/<scenario>` |
+
+No changes to your `e2e-scenarios/` directory — scenarios, specs, and config carry over as-is.
 
 ## Plugin Structure
 
