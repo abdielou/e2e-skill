@@ -9,7 +9,7 @@
       "name": "e2e",
       "description": "Discover coverage gaps, author human-readable scenarios, and generate/run Playwright E2E tests with AI.",
       "source": "./",
-      "version": "1.0.0",
+      "version": "2.0.0",
       "author": {
         "name": "abdielou"
       }

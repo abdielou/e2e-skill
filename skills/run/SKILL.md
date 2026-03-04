@@ -1,77 +1,68 @@
-# Run Mode
+---
+name: run
+description: Generate and/or execute Playwright E2E specs from scenarios. Use when user says "run e2e", "run tests", "generate spec", "execute e2e", "e2e run", or invokes /e2e:run with a scenario path like "deals/creation".
+compatibility: Requires an MCP-capable agent with @playwright/mcp server connected. Node.js and @playwright/test must be installed.
+---
 
-When `/e2e <area>/<scenario>` is invoked, execute the phases below in order. This mode handles authentication, spec generation (if needed), test execution, and reporting.
+# E2E Run
+
+Runs existing Playwright specs or generates new ones from scenario files. Handles authentication, pre-flight checks, spec generation, validation, and reporting.
+
+## Usage
+
+```
+/e2e:run <area>/<scenario>                # Run spec (generate on first run)
+/e2e:run <area>/<scenario> --regenerate   # Force spec regeneration
+/e2e:run <area>/<scenario> --headless     # Run headless (no visible browser)
+```
+
+Examples:
+
+```
+/e2e:run deals/creation                   # Runs existing spec, or generates if none exists
+/e2e:run contracts/list --regenerate      # Forces regeneration even if spec exists
+/e2e:run deals/edit --headless            # Run headless (faster, no visible browser)
+```
+
+**First-time setup:** On your first run, you'll be prompted to choose how to handle authentication:
+
+- **System Keychain** (most secure, requires `keytar` package)
+- **Local .env file** (plain text, gitignored)
+- **Manual login** (no storage, log in each time)
+
+After initial setup, authentication is handled automatically based on your choice.
+
+## Prerequisites
+
+- **Playwright MCP** must be configured (for test generation)
+- **Playwright** installed: `npm install -D @playwright/test`
+
+**Required tools:**
+
+- `Playwright MCP` — `browser_navigate`, `browser_snapshot`, `browser_click`, `browser_fill_form`, `browser_select_option`, `browser_run_code`, `browser_close`, `browser_take_screenshot`, `browser_wait_for`, `browser_press_key`
+- `Read` — Read scenario files, source code, selectors
+- `Write` — Write `.spec.ts` tests, config
+- `Bash` — Run `npx playwright test`, pre-flight checks
+- `AskUserQuestion` — Manual auth, confirmations
+- `Glob` — Find scenario files, page files
+- `Grep` — Search for `data-testid`, form fields, routes
+
+**Optional:**
+
+- `Task` (Explore subagent) — Research selectors/routes (Phase 3) without bloating context
 
 ---
 
-## Phase -2: Model Profile Check
+## Instructions
 
-**Run this phase first** on every invocation (explore, build, or run). Use a simple Bash command to check for the config file — do not read files unnecessarily.
+**Step 0: Run Phase -2 (Model Profile Check).** Read `../_shared/model-profiles.md` (relative to this skill's directory) and execute the "Phase -2: Model Profile Check" section. The current mode is `run`.
 
-**1. Check if a profile has been chosen:**
-
-```bash
-cat e2e-scenarios/.config/model-profile.txt 2>/dev/null
-```
-
-**2. If the file exists and contains a valid profile** (`optimized`, `quality`, or `economy`):
-
-- Store the profile name in memory for this session
-- Continue to the next phase silently (no output to user)
-
-**3. If the file does NOT exist or is invalid:**
-
-Use **AskUserQuestion** to prompt:
-
-```
-No model profile configured. Which profile should the e2e skill use?
-```
-
-**Options:**
-
-**Option A: Optimized (Recommended)**
-- **Label:** "Optimized (Recommended)"
-- **Description:** "Best model for each job — Sonnet scans, Opus authors, Haiku runs existing specs."
-
-**Option B: Quality**
-- **Label:** "Quality"
-- **Description:** "Opus for everything. Highest quality, highest cost."
-
-**Option C: Economy**
-- **Label:** "Economy"
-- **Description:** "Sonnet + Haiku only. Lowest cost, still capable."
-
-**4. Save the profile:**
-
-```bash
-mkdir -p e2e-scenarios/.config
-```
-
-Write the chosen profile (`optimized`, `quality`, or `economy`) to `e2e-scenarios/.config/model-profile.txt`.
-
-**5. Print a model recommendation based on the current mode:**
-
-After the profile is set (either loaded or just chosen), print a tip based on what mode the user invoked:
-
-| Mode invoked | Optimized tip | Quality tip | Economy tip |
-|-------------|---------------|-------------|-------------|
-| `explore` | "Tip: Sonnet is ideal for this. Run `/model sonnet` if needed." | "Tip: Opus is used for quality profile." | "Tip: Sonnet is ideal for this. Run `/model sonnet` if needed." |
-| `build` | "Tip: Opus is ideal for authoring. Run `/model opus` if needed." | "Tip: Opus is used for quality profile." | "Tip: Sonnet handles this well." |
-| `run` (new spec) | "Tip: Opus is ideal for spec generation. Run `/model opus` if needed." | "Tip: Opus is used for quality profile." | "Tip: Sonnet handles this well." |
-| `run` (existing spec) | "Tip: This just runs an existing spec — Haiku is plenty. Run `/model haiku` if needed." | "Tip: Opus is used for quality profile." | "Tip: This just runs an existing spec — Haiku is plenty. Run `/model haiku` if needed." |
-| Dashboard (`/e2e`) | No tip needed (read-only) | No tip needed | No tip needed |
-
-Only print the tip when the profile is **first created**. On subsequent runs where the config already exists, skip the tip to avoid noise.
-
-**6. Model lookup for subagents:**
-
-When spawning Task subagents later in the workflow, use this mapping to set the `model` parameter:
-
-| Subagent context | Optimized | Quality | Economy |
-|-----------------|-----------|---------|---------|
-| Explore mode — codebase scan (Step 2) | `sonnet` | `opus` | `sonnet` |
-| Run mode — Phase 3 codebase research | `sonnet` | `opus` | `sonnet` |
-| Run mode — Phase 5.5 spec review | `haiku` | `opus` | `haiku` |
+**Then read** the following shared references:
+- `../_shared/directory-structure.md`
+- `../_shared/scenario-format.md`
+- `../_shared/credentials.md`
+- `../_shared/rules-general.md` (rules 1-4 apply)
+- `../_shared/rules-run.md`
 
 ---
 
@@ -156,7 +147,7 @@ No authentication credentials found. How would you like to handle login?
    Install it with:
      npm install -D keytar
 
-   Then run /e2e again.
+   Then run /e2e:run again.
    ```
 
    **Stop here** and wait for user to install.
@@ -190,7 +181,7 @@ No authentication credentials found. How would you like to handle login?
 
    4. Save the file
 
-   Once created, run /e2e again to continue.
+   Once created, run /e2e:run again to continue.
    ```
 
 2. Ensure `e2e-scenarios/.env` is in `.gitignore`:
@@ -198,7 +189,7 @@ No authentication credentials found. How would you like to handle login?
    - If `e2e-scenarios/.env` not present, add it
 3. Create `e2e-scenarios/.auth/method.txt` with content `env`
 4. **Stop here** - user needs to create the .env file manually
-5. Next time they run `/e2e`, Phase -1 will detect the .env file and load credentials from it
+5. Next time they run `/e2e:run`, Phase -1 will detect the .env file and load credentials from it
 
 **If Option C (Manual):**
 
@@ -276,7 +267,7 @@ If the scenario file doesn't exist at the resolved path, use **Glob** to search 
 
 1. Announce: "Regenerating test for scenario..."
 2. Delete existing spec if it exists
-3. Continue to Phase 1 — **read `modes/run-generate.md`** (relative to the skill's directory) and follow those instructions
+3. Continue to Phase 1 — **read `run-generate.md`** (in this skill's directory) and follow those instructions
 
 **If the spec file EXISTS (and no --regenerate):**
 
@@ -302,7 +293,7 @@ If the scenario file doesn't exist at the resolved path, use **Glob** to search 
 **If the spec file does NOT exist:**
 
 1. Announce: "No existing test found. I'll explore the scenario and generate one."
-2. **Read `modes/run-generate.md`** (relative to the skill's directory) and follow those instructions starting from Phase 1.
+2. **Read `run-generate.md`** (in this skill's directory) and follow those instructions starting from Phase 1.
 
 ---
 

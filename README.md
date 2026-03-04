@@ -38,13 +38,13 @@ claude --plugin-dir ./path/to/e2e-skill
 ## Usage
 
 ```
-/e2e                                # Dashboard: coverage + scenario status
-/e2e explore                        # Scan codebase for coverage gaps
-/e2e build <topic>                  # Author scenario .md interactively
-/e2e build --ticket 1234            # Build scenario from a work item
-/e2e <area>/<scenario>              # Run spec (generate on first run)
-/e2e <area>/<scenario> --regenerate # Force spec regeneration
-/e2e <area>/<scenario> --headless   # Run headless (no visible browser)
+/e2e:dashboard                              # Coverage + scenario status
+/e2e:explore                                # Scan codebase for coverage gaps
+/e2e:build <topic>                          # Author scenario .md interactively
+/e2e:build --ticket 1234                    # Build scenario from a work item
+/e2e:run <area>/<scenario>                  # Run spec (generate on first run)
+/e2e:run <area>/<scenario> --regenerate     # Force spec regeneration
+/e2e:run <area>/<scenario> --headless       # Run headless (no visible browser)
 ```
 
 ## How It Works
@@ -52,29 +52,29 @@ claude --plugin-dir ./path/to/e2e-skill
 ```
 Codebase (routes, pages, components)
          |
-    [/e2e explore: scan & compare]
+    [/e2e:explore — scan & compare]
          |
 Gap Report -> COVERAGE.md
          |
-    [/e2e build: ask questions & write]
+    [/e2e:build — ask questions & write]
          |
 e2e-scenarios/<area>/<name>/scenario.md          # Human-readable scenario
          |
-    [/e2e <area>/<name>: first run -- AI explores, records, generates]
+    [/e2e:run — first run: AI explores, records, generates]
          |
 e2e-scenarios/<area>/<name>/scenario.spec.ts     # Playwright test
          |
-    [/e2e <area>/<name>: future runs -- just executes the spec]
+    [/e2e:run — future runs: just executes the spec]
 ```
 
 ### Modes
 
-| Mode          | Command                  | What it does                                    |
-| ------------- | ------------------------ | ----------------------------------------------- |
-| **Dashboard** | `/e2e`                   | Shows coverage status across all scenarios      |
-| **Explore**   | `/e2e explore`           | Scans codebase, catalogs features, finds gaps   |
-| **Build**     | `/e2e build <topic>`     | Interactive scenario authoring (produces `.md`) |
-| **Run**       | `/e2e <area>/<scenario>` | Generates and/or executes Playwright specs      |
+| Mode          | Command                              | What it does                                    |
+| ------------- | ------------------------------------ | ----------------------------------------------- |
+| **Dashboard** | `/e2e:dashboard`                     | Shows coverage status across all scenarios      |
+| **Explore**   | `/e2e:explore`                       | Scans codebase, catalogs features, finds gaps   |
+| **Build**     | `/e2e:build <topic>`                 | Interactive scenario authoring (produces `.md`) |
+| **Run**       | `/e2e:run <area>/<scenario>`         | Generates and/or executes Playwright specs      |
 
 ### Directory structure (in your project)
 
@@ -94,7 +94,7 @@ e2e-scenarios/
 
 ## Prerequisites
 
-- **Claude Code** with Playwright MCP configured:
+- **MCP-capable agent** with Playwright MCP configured:
   ```bash
   claude mcp add playwright -- npx @anthropic-ai/playwright-mcp@latest
   ```
@@ -129,16 +129,24 @@ Set on first run, or reset by deleting `e2e-scenarios/.config/model-profile.txt`
 ```
 e2e-skill/
   .claude-plugin/
-    plugin.json             # Plugin manifest
+    plugin.json               # Plugin manifest
   skills/
-    e2e/
-      SKILL.md              # Main skill definition
-      modes/
-        dashboard.md        # Dashboard mode instructions
-        explore.md          # Explore mode instructions
-        build.md            # Build mode instructions
-        run.md              # Run mode instructions
-        run-generate.md     # Spec generation phases
+    _shared/                  # Shared references (not a skill)
+      directory-structure.md  # Filesystem layout & conventions
+      scenario-format.md     # Scenario template & writing rules
+      credentials.md         # Auth management guide
+      model-profiles.md      # Profile system & Phase -2 procedure
+      rules-general.md       # Rules 1-9 (all modes)
+      rules-run.md           # Rules 10-21 + limitations (run mode)
+    dashboard/
+      SKILL.md               # /e2e:dashboard
+    explore/
+      SKILL.md               # /e2e:explore
+    build/
+      SKILL.md               # /e2e:build
+    run/
+      SKILL.md               # /e2e:run
+      run-generate.md        # Spec generation phases (1-7)
 ```
 
 ## License

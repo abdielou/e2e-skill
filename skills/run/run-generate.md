@@ -1,6 +1,6 @@
 # Run Mode — Spec Generation (Phases 1-7)
 
-**This file is loaded when no existing spec is found.** Continue from Phase 0 in `run.md`.
+**This file is loaded when no existing spec is found.** Continue from Phase 0 in `SKILL.md`.
 
 ---
 
@@ -74,7 +74,7 @@
 
 ## Phase 2: Parse the Scenarios File
 
-Read `e2e-scenarios/<area>/<name>/scenario.md` and extract (see **Scenario File Format** in skill.md):
+Read `e2e-scenarios/<area>/<name>/scenario.md` and extract (see **Scenario File Format** in `../_shared/scenario-format.md`):
 
 - **Context**: Prerequisites, permissions, setup requirements
 - **Scenarios**: Each has a Description and Expected outcome
@@ -85,7 +85,7 @@ Read `e2e-scenarios/<area>/<name>/scenario.md` and extract (see **Scenario File 
 
 **Recommended: Run this phase in parallel with Phase 2 using a Task (Explore) subagent.** Launch the subagent as a non-background Task call (do NOT use `run_in_background`) so results return automatically. Background tasks cause stalls where the agent waits for user input instead of continuing.
 
-**Model selection:** Set the subagent's `model` parameter based on the active profile (see Phase -2 model lookup table in `run.md`).
+**Model selection:** Set the subagent's `model` parameter based on the active profile (see Phase -2 model lookup table in `../_shared/model-profiles.md`).
 
 Delegate codebase research to an Explore subagent with a prompt like:
 
@@ -303,7 +303,7 @@ test.describe("<Scenario Group Name>", () => {
 
 **Spawn a Task (general-purpose) subagent** to review the generated spec with fresh eyes. The main agent's context is saturated with browser snapshots — a fresh agent catches things it won't.
 
-**Model selection:** Set the subagent's `model` parameter based on the active profile (see Phase -2 model lookup table in `run.md`).
+**Model selection:** Set the subagent's `model` parameter based on the active profile (see Phase -2 model lookup table in `../_shared/model-profiles.md`).
 
 Prompt for the review subagent:
 
@@ -372,7 +372,7 @@ Before reporting success, **run the generated spec to verify it works**:
 
 ## Phase 7: Report Results
 
-Display results using the **Standard Results Table** (defined in `run.md`).
+Display results using the **Standard Results Table** (defined in `SKILL.md`).
 
 After generation, also include the exploration issues section.
 
@@ -418,4 +418,4 @@ After generation, also include the exploration issues section.
 
 **Important**: Always include the Issues section, even if empty. This gives the user confidence that exploration was thorough. If issues were found, they represent valuable QA feedback beyond just the generated test.
 
-After reporting, proceed to **Phase 8: Cleanup** (in `run.md`).
+After reporting, proceed to **Phase 8: Cleanup** (in `SKILL.md`).
