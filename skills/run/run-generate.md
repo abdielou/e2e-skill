@@ -413,7 +413,7 @@ After generation, also include the exploration issues section.
 
 ---
 ### Next time:
-  /e2e <area>/<name>    (runs the existing spec)
+  /e2e:run <area>/<name>    (runs the existing spec)
 ```
 
 **Important**: Always include the Issues section, even if empty. This gives the user confidence that exploration was thorough. If issues were found, they represent valuable QA feedback beyond just the generated test.

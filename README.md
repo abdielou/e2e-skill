@@ -2,7 +2,25 @@
 
 Discover coverage gaps, author human-readable scenarios, and generate/run Playwright E2E tests — powered by any MCP-capable agent with [@anthropic-ai/playwright-mcp](https://github.com/anthropics/playwright-mcp).
 
-> **A note from the human:** Obviously built by AI, directed by a human. My goal was to make E2E testing as human-friendly as possible. The starting point is the **scenario file** — a plain-English scenario doc that the agent consumes to build Playwright specs. That's what you want to mess with if you need to. But the whole flow can be fully automated: let the agent explore your app, build the scenarios, generate the specs, and run them.
+## Prerequisites
+
+- **MCP-capable agent** with Playwright MCP configured:
+  ```bash
+  claude mcp add playwright -- npx @anthropic-ai/playwright-mcp@latest
+  ```
+- **Playwright** installed in your project:
+  ```bash
+  npm install -D @playwright/test
+  ```
+- Your application running locally (the skill never starts the app for you)
+
+### Optional (for automated login)
+
+| Method          | Install                 | Notes                        |
+| --------------- | ----------------------- | ---------------------------- |
+| System Keychain | `npm install -D keytar` | Most secure, OS-encrypted    |
+| Local .env      | Nothing extra           | Plain text, gitignored       |
+| Manual          | Nothing extra           | Log in via browser each time |
 
 ## Installation
 
@@ -57,6 +75,8 @@ claude --plugin-dir ./path/to/e2e-skill
 
 ## How It Works
 
+The central artifact is the **scenario file** — a plain-English `.md` that describes what to test. You can author scenarios manually, or let the agent handle the full pipeline: explore your app, build scenarios, generate Playwright specs, and run them.
+
 ```
 Codebase (routes, pages, components)
          |
@@ -75,14 +95,52 @@ e2e-scenarios/<area>/<name>/scenario.spec.ts     # Playwright test
     [/e2e:run — future runs: just executes the spec]
 ```
 
-### Modes
+### Example scenario file
 
-| Mode          | Command                              | What it does                                    |
-| ------------- | ------------------------------------ | ----------------------------------------------- |
-| **Dashboard** | `/e2e:dashboard`                     | Shows coverage status across all scenarios      |
-| **Explore**   | `/e2e:explore`                       | Scans codebase, catalogs features, finds gaps   |
-| **Build**     | `/e2e:build <topic>`                 | Interactive scenario authoring (produces `.md`) |
-| **Run**       | `/e2e:run <area>/<scenario>`         | Generates and/or executes Playwright specs      |
+`e2e-scenarios/auth/login/scenario.md`:
+
+```markdown
+# Login Flow
+
+Standard authentication flow for the application.
+
+Covers: #1024, #1031
+
+## Context
+
+- User must NOT be authenticated
+- Navigate to /login
+
+---
+
+## Scenario: Successful login with valid credentials
+
+### Description
+
+Enter valid credentials and submit the login form. The user should be
+redirected to the dashboard with their name visible in the header.
+
+### Expected
+
+1. Redirects to /dashboard
+2. User's display name appears in the header
+3. Navigation menu shows authenticated options
+
+---
+
+## Scenario: Failed login with wrong password
+
+### Description
+
+Enter a valid email but an incorrect password. The form should show
+an error without clearing the email field.
+
+### Expected
+
+1. Stays on /login
+2. Error message "Invalid credentials" is visible
+3. Email field retains the entered value
+```
 
 ### Directory structure (in your project)
 
@@ -99,26 +157,6 @@ e2e-scenarios/
       scenario.spec.ts           # Generated Playwright test (output)
       *.csv, *.png               # Colocated fixtures
 ```
-
-## Prerequisites
-
-- **MCP-capable agent** with Playwright MCP configured:
-  ```bash
-  claude mcp add playwright -- npx @anthropic-ai/playwright-mcp@latest
-  ```
-- **Playwright** installed in your project:
-  ```bash
-  npm install -D @playwright/test
-  ```
-- Your application running locally (the skill never starts the app for you)
-
-### Optional (for automated login)
-
-| Method          | Install                 | Notes                        |
-| --------------- | ----------------------- | ---------------------------- |
-| System Keychain | `npm install -D keytar` | Most secure, OS-encrypted    |
-| Local .env      | Nothing extra           | Plain text, gitignored       |
-| Manual          | Nothing extra           | Log in via browser each time |
 
 ## Model Profiles
 
@@ -147,7 +185,8 @@ rm -rf ~/.claude/plugins/cache/abdielou-e2e-skill
 /plugin update e2e@abdielou-e2e-skill
 ```
 
-### Migrating from v1 to v2
+<details>
+<summary>Migrating from v1 to v2</summary>
 
 v2.0.0 split the single skill into four. Update your muscle memory:
 
@@ -160,30 +199,7 @@ v2.0.0 split the single skill into four. Update your muscle memory:
 
 No changes to your `e2e-scenarios/` directory — scenarios, specs, and config carry over as-is.
 
-## Plugin Structure
-
-```
-e2e-skill/
-  .claude-plugin/
-    plugin.json               # Plugin manifest
-  skills/
-    _shared/                  # Shared references (not a skill)
-      directory-structure.md  # Filesystem layout & conventions
-      scenario-format.md     # Scenario template & writing rules
-      credentials.md         # Auth management guide
-      model-profiles.md      # Profile system & Phase -2 procedure
-      rules-general.md       # Rules 1-9 (all modes)
-      rules-run.md           # Rules 10-21 + limitations (run mode)
-    dashboard/
-      dashboard.md           # /e2e:dashboard
-    explore/
-      explore.md             # /e2e:explore
-    build/
-      build.md               # /e2e:build
-    run/
-      run.md                 # /e2e:run
-      run-generate.md        # Spec generation phases (1-7)
-```
+</details>
 
 ## License
 

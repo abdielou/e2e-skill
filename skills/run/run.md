@@ -1,6 +1,6 @@
 ---
 name: run
-description: Generate and/or execute Playwright E2E specs from scenarios. Use when user says "run e2e", "run tests", "generate spec", "execute e2e", "e2e run", or invokes /e2e:run with a scenario path like "deals/creation".
+description: Generate and/or execute Playwright E2E specs from scenarios. Use when user says "run e2e", "run e2e tests", "generate spec", "execute e2e", "e2e run", or invokes /e2e:run with a scenario path like "deals/creation".
 compatibility: Requires an MCP-capable agent with @playwright/mcp server connected. Node.js and @playwright/test must be installed.
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: build
-description: Author human-readable E2E test scenarios interactively. Use when user says "build scenario", "write e2e scenario", "create test scenario", "e2e build", or invokes /e2e:build.
+description: Author human-readable E2E test scenarios interactively. Use when user says "build scenario", "write e2e scenario", "create test scenario", "write a test for", "add e2e test", "e2e build", or invokes /e2e:build.
 compatibility: Requires an MCP-capable agent. Node.js and @playwright/test must be installed.
 ---
 

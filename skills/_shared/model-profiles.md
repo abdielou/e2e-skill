@@ -87,6 +87,6 @@ When spawning Task subagents later in the workflow, use this mapping to set the 
 
 | Subagent context | Optimized | Quality | Economy |
 |-----------------|-----------|---------|---------|
-| Explore mode — codebase scan (Step 2) | `sonnet` | `opus` | `sonnet` |
+| Explore mode — codebase scan (Step 3) | `sonnet` | `opus` | `sonnet` |
 | Run mode — Phase 3 codebase research | `sonnet` | `opus` | `sonnet` |
 | Run mode — Phase 5.5 spec review | `haiku` | `opus` | `haiku` |

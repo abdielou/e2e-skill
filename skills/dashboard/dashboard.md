@@ -1,7 +1,7 @@
 ---
 name: dashboard
 description: Show E2E test coverage dashboard with scenario status. Use when user says "e2e dashboard", "test coverage status", "show e2e status", "e2e overview", or invokes /e2e:dashboard.
-compatibility: Requires an MCP-capable agent. Node.js and @playwright/test must be installed.
+compatibility: Requires an MCP-capable agent.
 ---
 
 # E2E Dashboard

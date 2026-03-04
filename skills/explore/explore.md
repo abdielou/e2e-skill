@@ -1,7 +1,7 @@
 ---
 name: explore
 description: Scan codebase for E2E test coverage gaps and catalog features. Use when user says "explore coverage", "find coverage gaps", "scan for e2e", "what needs testing", "e2e explore", or invokes /e2e:explore.
-compatibility: Requires an MCP-capable agent. Node.js and @playwright/test must be installed.
+compatibility: Requires an MCP-capable agent.
 ---
 
 # E2E Explore
