@@ -1,15 +1,11 @@
 {
   "name": "e2e",
-  "description": "Discover coverage gaps, author human-readable scenarios, and generate/run Playwright E2E tests with AI.",
-  "version": "2.2.0",
+  "description": "Keep a human in control of E2E testing. The human approves plain-language scenarios, and agents generate, run, and repair the Playwright tests that prove them.",
+  "version": "3.0.0",
   "author": {
     "name": "abdielou"
   },
   "repository": "https://github.com/abdielou/e2e-skill",
-  "commands": [
-    "./skills/dashboard/dashboard.md",
-    "./skills/explore/explore.md",
-    "./skills/build/build.md",
-    "./skills/run/run.md"
-  ]
+  "license": "MIT",
+  "keywords": ["e2e", "testing", "playwright", "qa"]
 }

@@ -1,0 +1,4 @@
+# Created by the e2e plugin. These files hold secrets or local run evidence.
+.env
+.auth/
+.results/

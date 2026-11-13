@@ -1,0 +1,59 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node",
+            "args": [
+              "${CLAUDE_PLUGIN_ROOT}/scripts/guard.mjs"
+            ],
+            "if": "Edit(**/scenario.spec.ts)",
+            "timeout": 10,
+            "statusMessage": "Checking the e2e scenario contract"
+          }
+        ]
+      },
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node",
+            "args": [
+              "${CLAUDE_PLUGIN_ROOT}/scripts/guard.mjs"
+            ],
+            "if": "Write(**/scenario.spec.ts)",
+            "timeout": 10,
+            "statusMessage": "Checking the e2e scenario contract"
+          }
+        ]
+      },
+      {
+        "matcher": "Read",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node",
+            "args": [
+              "${CLAUDE_PLUGIN_ROOT}/scripts/guard.mjs"
+            ],
+            "if": "Read(**/e2e-scenarios/.env)",
+            "timeout": 10
+          },
+          {
+            "type": "command",
+            "command": "node",
+            "args": [
+              "${CLAUDE_PLUGIN_ROOT}/scripts/guard.mjs"
+            ],
+            "if": "Read(**/e2e-scenarios/.auth/state.json)",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}

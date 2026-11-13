@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: auth-setup-does-not-read-env
+context:
+  scaffold_script: fixture.sh

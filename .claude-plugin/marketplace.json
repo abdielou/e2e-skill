@@ -1,15 +1,16 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "abdielou-e2e-skill",
+  "description": "E2E testing with human oversight: approved scenarios, generated Playwright tests, and run evidence.",
   "owner": {
     "name": "abdielou"
   },
   "plugins": [
     {
       "name": "e2e",
-      "description": "Discover coverage gaps, author human-readable scenarios, and generate/run Playwright E2E tests with AI.",
+      "description": "Keep a human in control of E2E testing. The human approves plain-language scenarios, and agents generate, run, and repair the Playwright tests that prove them.",
       "source": "./",
-      "version": "2.2.0",
+      "version": "3.0.0",
       "author": {
         "name": "abdielou"
       }
