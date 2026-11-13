@@ -30,6 +30,7 @@ A failed test is information. Find the cause first. The cause decides who can ma
    npx playwright cli -s=tw-<id> console
    npx playwright cli -s=tw-<id> resume                              # to end the session
    ```
+   End each debug session with `resume`. A paused test stays open as a process until then.
 
 ## 2. Find the cause
 

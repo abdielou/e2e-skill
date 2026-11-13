@@ -36,6 +36,8 @@ The session opens the application in the same state that a test starts in.
 
    Add `-s=tw-<id>` to each command below.
 
+**End each debug session with `resume`.** A paused test stays open as a process until then. If you start a session and do not use it, attach to it and run `resume`. Do not only stop the background command.
+
 If the debug session does not start, use this fallback: `npx playwright cli open <base URL>`, then `npx playwright cli state-load e2e-scenarios/.auth/state.json`, then `npx playwright cli goto <base URL>`.
 
 ## 3. Do each scenario in the application
