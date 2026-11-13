@@ -1,7 +1,7 @@
 ---
 name: run
 description: Generate and/or execute Playwright E2E specs from scenarios. Use when user says "run e2e", "run e2e tests", "generate spec", "execute e2e", "e2e run", or invokes /e2e:run with a scenario path like "deals/creation".
-compatibility: Requires an MCP-capable agent with @playwright/mcp server connected. Node.js and @playwright/test must be installed.
+compatibility: Requires agent-browser CLI (npm i -g agent-browser) for exploration and @playwright/test for running specs. Node.js must be installed.
 ---
 
 # E2E Run
@@ -34,15 +34,14 @@ After initial setup, authentication is handled automatically based on your choic
 
 ## Prerequisites
 
-- **Playwright MCP** must be configured (for test generation)
-- **Playwright** installed: `npm install -D @playwright/test`
+- **[agent-browser](https://agent-browser.dev/)** installed globally: `npm install -g agent-browser` (for AI-driven exploration)
+- **Playwright** installed: `npm install -D @playwright/test` (for running generated specs)
 
 **Required tools:**
 
-- `Playwright MCP` — `browser_navigate`, `browser_snapshot`, `browser_click`, `browser_fill_form`, `browser_select_option`, `browser_run_code`, `browser_close`, `browser_take_screenshot`, `browser_wait_for`, `browser_press_key`
+- `Bash` — Run `agent-browser` CLI commands (exploration), `npx playwright test` (spec execution), pre-flight checks
 - `Read` — Read scenario files, source code, selectors
 - `Write` — Write `.spec.ts` tests, config
-- `Bash` — Run `npx playwright test`, pre-flight checks
 - `AskUserQuestion` — Manual auth, confirmations
 - `Glob` — Find scenario files, page files
 - `Grep` — Search for `data-testid`, form fields, routes
@@ -323,23 +322,32 @@ If the scenario file doesn't exist at the resolved path, use **Glob** to search 
      - `env`: Read from `e2e-scenarios/.env`
      - `manual`: No credentials available
 
-4. **Launch browser with Playwright MCP:**
-   - Navigate to the resolved base URL (from Phase 0)
-   - Take a snapshot of the page
+4. **Launch browser with agent-browser:**
+   ```bash
+   agent-browser open <resolved-base-url>
+   ```
+   Then take a snapshot:
+   ```bash
+   agent-browser snapshot
+   ```
 
 5. **Authenticate based on credential method:**
 
    **If credentials are available (keychain or env):**
    - Wait for login screen to load
-   - Identify login form fields (username/email field, password field, submit button)
-   - Use Playwright MCP to:
-     ```
-     browser_fill_form with username and password
-     browser_click on submit/login button
+   - Identify login form fields from the snapshot (note the `@ref` identifiers)
+   - Use agent-browser to fill and submit:
+     ```bash
+     agent-browser fill @<email-ref> "username"
+     agent-browser fill @<password-ref> "password"
+     agent-browser click @<submit-ref>
      ```
    - Wait for navigation to authenticated page
-   - Take a snapshot to verify authentication succeeded
-   - **Save new auth state**: Use Playwright MCP's `browser_run_code` to extract cookies/storage and save to `e2e-scenarios/.auth/state.json` via Write tool
+   - Take a snapshot to verify authentication succeeded:
+     ```bash
+     agent-browser snapshot
+     ```
+   - **Save new auth state**: Use `agent-browser eval` to extract cookies/storage and save to `e2e-scenarios/.auth/state.json` via Write tool
 
    **If manual mode (no credentials):**
    - Use **AskUserQuestion** to prompt:
@@ -359,8 +367,8 @@ If the scenario file doesn't exist at the resolved path, use **Glob** to search 
 
 6. **Close the browser:**
 
-   ```
-   browser_close
+   ```bash
+   agent-browser close
    ```
 
 7. **Re-run the test:**
@@ -407,12 +415,11 @@ Rules:
 
 After reporting results, clean up **except auth state**:
 
-1. **Close the browser** using Playwright MCP's `browser_close` tool (if not already closed in Phase 6)
-2. **Delete screenshots only** - Remove Playwright MCP artifacts but **preserve auth**:
+1. **Close the browser** (if not already closed in Phase 6):
    ```bash
-   rm -rf .playwright-mcp
+   agent-browser close
    ```
-3. **NEVER delete** `e2e-scenarios/.auth/state.json` - this preserves login for future runs
-4. **Confirm cleanup** - Don't report cleanup to user unless there's an error
+2. **NEVER delete** `e2e-scenarios/.auth/state.json` - this preserves login for future runs
+3. **Confirm cleanup** - Don't report cleanup to user unless there's an error
 
 **Important**: Keep the browser open while running multiple scenarios. Only close at the very end.

@@ -9,8 +9,14 @@
 **Auth state file**: `e2e-scenarios/.auth/state.json`
 
 1. Check if auth state file exists
-2. Use Playwright MCP to navigate to the resolved base URL (from Phase 0)
-3. Take a snapshot of the page
+2. Use agent-browser to navigate to the resolved base URL (from Phase 0):
+   ```bash
+   agent-browser open <resolved-base-url>
+   ```
+3. Take a snapshot of the page:
+   ```bash
+   agent-browser snapshot
+   ```
 4. **Detect authentication state**:
    - Login screen indicators: login forms, "Sign In" buttons, SSO/OAuth page, redirect to `/login`
    - Authenticated indicators: navigation menus, user info, dashboard content
@@ -31,20 +37,24 @@
    **If credentials are available (keychain or env):**
    - Announce: "Logging in automatically with stored credentials..."
    - Wait for login screen to load
-   - Identify login form fields (username/email field, password field, submit button)
-   - Use Playwright MCP to:
-     ```
-     browser_fill_form with username and password
-     browser_click on submit/login button
+   - Identify login form fields from the snapshot (note the `@ref` identifiers)
+   - Use agent-browser to fill and submit:
+     ```bash
+     agent-browser fill @<email-ref> "username"
+     agent-browser fill @<password-ref> "password"
+     agent-browser click @<submit-ref>
      ```
    - Wait for navigation to authenticated page
-   - Take a snapshot to verify authentication succeeded
+   - Take a snapshot to verify authentication succeeded:
+     ```bash
+     agent-browser snapshot
+     ```
    - If login failed (still on login screen or error message), announce the failure and fall back to manual login (see below)
-   - **Save auth state**: Ensure the `.auth` directory exists, then use Playwright MCP's `browser_run_code` to extract cookies and storage:
+   - **Save auth state**: Ensure the `.auth` directory exists, then use `agent-browser eval` to extract cookies and storage:
      ```bash
      mkdir -p e2e-scenarios/.auth
      ```
-     Then use `browser_run_code` to capture the storage state and write it to `e2e-scenarios/.auth/state.json` via the **Write** tool
+     Then use `agent-browser eval` to capture the storage state and write it to `e2e-scenarios/.auth/state.json` via the **Write** tool
    - Proceed to Phase 2
 
    **If manual mode (no credentials) OR automated login failed:**
@@ -342,7 +352,10 @@ After receiving the review:
 
 Before reporting success, **run the generated spec to verify it works**:
 
-1. **Close the exploration browser** using Playwright MCP's `browser_close` — the test runner will launch its own
+1. **Close the exploration browser** — the test runner will launch its own:
+   ```bash
+   agent-browser close
+   ```
 2. **Run the spec headless** (faster validation):
    ```bash
    npx playwright test e2e-scenarios/<area>/<name>/scenario.spec.ts --config e2e-scenarios/playwright.config.ts

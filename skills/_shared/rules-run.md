@@ -38,7 +38,7 @@
     - Add `page.pause()` to generated test code
     - Open the Playwright Inspector manually
     - Use any debugging or inspection tools during test execution
-    - **Exploration (Phase 4):** Use **Playwright MCP tools only** (browser_navigate, browser_click, etc.)
+    - **Exploration (Phase 4):** Use **agent-browser CLI only** (`agent-browser open`, `agent-browser click`, `agent-browser snapshot`, etc.)
     - **Running tests (Phase 0, 6):** Use **`npx playwright test`** with `--headed` for visibility OR headless for speed, but NEVER with `--debug`
 
 ## Limitations

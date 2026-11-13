@@ -1,14 +1,15 @@
 # E2E Testing Skill
 
-Discover coverage gaps, author human-readable scenarios, and generate/run Playwright E2E tests — powered by any MCP-capable agent with [@anthropic-ai/playwright-mcp](https://github.com/anthropics/playwright-mcp).
+Discover coverage gaps, author human-readable scenarios, and generate/run Playwright E2E tests — powered by AI browser exploration and Playwright test execution.
 
 ## Prerequisites
 
-- **MCP-capable agent** with Playwright MCP configured:
+- **[agent-browser](https://agent-browser.dev/)** installed (for AI-driven exploration during test generation):
   ```bash
-  claude mcp add playwright -- npx @anthropic-ai/playwright-mcp@latest
+  npm install -g agent-browser
+  agent-browser install    # Downloads Chrome for Testing
   ```
-- **Playwright** installed in your project:
+- **Playwright** installed in your project (for running generated specs):
   ```bash
   npm install -D @playwright/test
   ```
