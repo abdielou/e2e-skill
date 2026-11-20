@@ -49,3 +49,12 @@ Read these two files first:
 - **Do not duplicate coverage.** If a scenario covers the flow, tell the human and stop.
 - **To change a scenario that exists,** read it first. Show the lines before and after the change. Get approval. Then tell the human that the spec is now stale and that `/e2e:run <area>/<scenario>` generates it again.
 - **Each Expected item is one result that a person can see.** The run result shows a pass or a fail for each item. Split an item that has two results.
+
+## About this skill
+
+This section is for a person who reads this file, for example on skills.sh. It is not a step of the procedure.
+
+- **Purpose:** an agent drafts an E2E scenario in plain language, and you approve each word before the file is written.
+- **Install the set:** `e2e-run`, `e2e-build`, `e2e-explore`, and `e2e-dashboard`. This skill needs the files of `e2e-run`.
+- **Claude Code:** the plugin install of the same repository adds a hook. The hook asks you before an agent changes an assertion or reads your credentials. This skill alone does not have it.
+- **Documentation:** https://github.com/abdielou/e2e-skill#readme

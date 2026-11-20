@@ -35,3 +35,13 @@ Show the status of each feature and each scenario. This skill reads files. It do
 | Spec | The comparison of `scenario.spec.ts` with `scenario.md`. See the states in `<run>/reference/project-layout.md` |
 | Last run | The result that `/e2e:run` wrote on this machine |
 | Open findings | The lines with `- [ ]` in `findings.md` |
+
+## About this skill
+
+This section is for a person who reads this file, for example on skills.sh. It is not a step of the procedure.
+
+- **Purpose:** a status table of each feature and each scenario: the state of its test, the last run result, and the open findings. A script calculates it, not a model.
+- **Needs:** Node.js 18 or later.
+- **Install the set:** `e2e-run`, `e2e-build`, `e2e-explore`, and `e2e-dashboard`. This skill needs the helper script of `e2e-run`.
+- **Claude Code:** the plugin install of the same repository adds a hook. The hook asks you before an agent changes an assertion or reads your credentials. This skill alone does not have it.
+- **Documentation:** https://github.com/abdielou/e2e-skill#readme

@@ -61,3 +61,13 @@ Run each command from the project root. If a path starts with a `$` variable tha
 - A notice for each skipped test. Tell the human about each one.
 
 The command also writes the result to `e2e-scenarios/.results/`. The dashboard reads it.
+
+## About this skill
+
+This section is for a person who reads this file, for example on skills.sh. It is not a step of the procedure.
+
+- **Purpose:** an agent generates, runs, and repairs the Playwright test of a scenario that a human approved. The agent cannot change what the scenario expects.
+- **Needs:** Node.js 18 or later, `@playwright/test` 1.59 or later in the project, an installed Chromium (`npx playwright install chromium`), and the application running.
+- **Install the set:** `e2e-run`, `e2e-build`, `e2e-explore`, and `e2e-dashboard`. This skill holds the helper script that the other three use.
+- **Claude Code:** the plugin install of the same repository adds a hook. The hook asks you before an agent changes an assertion or reads your credentials. This skill alone does not have it.
+- **Documentation:** https://github.com/abdielou/e2e-skill#readme

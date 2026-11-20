@@ -51,3 +51,12 @@ Read `<run>/reference/project-layout.md` first.
 - **This skill writes `COVERAGE.md` only.** It does not write a scenario or a spec. The human decides what to build.
 - **No status, dates, or results in the catalog.** They go out of date. The dashboard reads them from the files.
 - **One row for each feature that a user can see.** A backend endpoint with no UI is not a row.
+
+## About this skill
+
+This section is for a person who reads this file, for example on skills.sh. It is not a step of the procedure.
+
+- **Purpose:** an agent scans the codebase and writes a catalog of the features that a user can see. You decide which ones get a scenario.
+- **Install the set:** `e2e-run`, `e2e-build`, `e2e-explore`, and `e2e-dashboard`. This skill needs the files of `e2e-run`.
+- **Claude Code:** the plugin install of the same repository adds a hook. The hook asks you before an agent changes an assertion or reads your credentials. This skill alone does not have it.
+- **Documentation:** https://github.com/abdielou/e2e-skill#readme
