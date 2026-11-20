@@ -565,3 +565,13 @@ test("specWasRun is true only when the last run record is for the current spec t
     fs.rmSync(root, { recursive: true, force: true });
   }
 });
+
+test("parseScenario reads a bullet list of Expected items, and the first item sets the list style", () => {
+  const head = "# T\n\n## Scenario: A\n\n### Expected\n\n";
+  const bullets = parseScenario(head + "- first\n  more of first\n  - detail of first\n* second\n\n## Scenario: B\n\n### Expected\n\n1. one\n   - detail of one\n- still one\n2. two\n");
+  assert.deepEqual(bullets.scenarios[0].expected, ["first more of first - detail of first", "second"]);
+  assert.deepEqual(bullets.scenarios[1].expected, ["one - detail of one - still one", "two"]);
+  assert.deepEqual(Object.keys(bullets.scenarios[0]), ["name", "expected"]);
+  const numberedInBullets = parseScenario(head + "- first\n1. not an item\n");
+  assert.deepEqual(numberedInBullets.scenarios[0].expected, ["first 1. not an item"]);
+});

@@ -51,6 +51,6 @@ Each `Expected` item becomes one named step in the test, and the run result show
 1. **One result for each item.** Write "Redirects to /dashboard" and "The header shows the user name" as two items.
 2. **Each result must be visible on the screen.** Do not write "the record is saved in the database".
 3. **Quote exact text when the text is the requirement.** Write `Error message "Invalid credentials" is visible`.
-4. **Use a numbered list.** The number is the ID of the item: `E1`, `E2`, `E3`.
+4. **Use a numbered list.** The number is the ID of the item: `E1`, `E2`, `E3`. The script also reads a bullet list, and it counts the items from the top. In a bullet list, do not indent an item.
 
 If you change a scenario file after its spec exists, the spec becomes stale. `/e2e:run` then generates the spec again.

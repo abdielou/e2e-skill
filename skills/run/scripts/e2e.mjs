@@ -46,6 +46,7 @@ export function parseScenario(text) {
   let current = null;
   let inExpected = false;
   let inFence = false;
+  let bullets = false;
   for (const line of lines) {
     if (/^\s*(```|~~~)/.test(line)) {
       inFence = !inFence;
@@ -77,7 +78,12 @@ export function parseScenario(text) {
       continue;
     }
     if (!inExpected || !current) continue;
-    const item = /^\s*\d+[.)]\s+(.*)$/.exec(line);
+    // The first item sets the list style of the section. In a numbered list, a bullet line is detail
+    // of the item above it. In a bullet list, only a bullet with no indent is an item.
+    const numbered = /^\s*\d+[.)]\s+(.*)$/.exec(line);
+    const bullet = /^[-*+]\s+(.*)$/.exec(line);
+    if (!current.expected.length) bullets = !numbered && Boolean(bullet);
+    const item = bullets ? bullet : numbered;
     if (item) {
       current.expected.push(collapse(item[1]));
     } else if (line.trim() && current.expected.length) {
