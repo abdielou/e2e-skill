@@ -36,6 +36,27 @@ To update:
 /plugin update e2e@abdielou-e2e-skill
 ```
 
+### Other agents
+
+The four skills are also on [skills.sh](https://skills.sh/abdielou/e2e-skill). This command installs them for Codex, Cursor, and other agents:
+
+```bash
+npx skills add abdielou/e2e-skill
+```
+
+Install all four skills. The `run` skill holds the helper script, and the other three skills use it.
+
+This install has less control than the plugin. For Claude Code, use the plugin.
+
+| Part | Plugin | `npx skills add` |
+|------|--------|------------------|
+| The four skills, the helper script, the contract check | Yes | Yes |
+| The hook that stops an assertion change before the edit | Yes | No. The script shows the change after the edit, in the run result |
+| The hook that stops a read of your credentials | Yes | No. Only the skill text tells the agent not to read them |
+| A separate reviewer for each generated spec | Yes | Only if the agent can start a subagent |
+| Command names | `/e2e:run`, `/e2e:build`, `/e2e:explore`, `/e2e:dashboard` | `run`, `build`, `explore`, `dashboard` |
+| Tested | Claude Code on Windows | Claude Code on Windows. Other agents are not tested |
+
 ## Usage
 
 ```
@@ -203,7 +224,7 @@ The generated tests are plain Playwright tests. CI needs no agent.
 
 The report is in `e2e-scenarios/.results/html/`. The `manual` auth mode does not work in CI.
 
-To fail a build on a contract gap, copy `scripts/e2e.mjs` from this plugin into your repository and run `node e2e.mjs check`. The file has no dependencies.
+To fail a build on a contract gap, copy `skills/run/scripts/e2e.mjs` from this plugin into your repository and run `node e2e.mjs check`. The file has no dependencies.
 
 ## Files in Your Project
 
@@ -225,7 +246,7 @@ e2e-scenarios/
 
 ## Models
 
-The two subagents use Sonnet: `spec-reviewer` and `coverage-scanner`. To use a different model, copy the file from `agents/` to `.claude/agents/` in your project and change its `model` line.
+The two subagents use Sonnet: `spec-reviewer` and `coverage-scanner`. The checklist of each one is also in its skill: `skills/run/review.md` and `skills/explore/scan.md`. A unit test keeps the two copies the same. To use a different model, copy the file from `agents/` to `.claude/agents/` in your project and change its `model` line.
 
 ## Migrating from v2 to v3
 
@@ -251,6 +272,8 @@ claude plugin validate .              # Check the manifest and the layout
 node --test tests/e2e.test.mjs        # Unit tests of the helper script
 claude plugin eval . --no-publish     # Behavior tests against a no-plugin baseline
 ```
+
+The shared files are in `skills/run/`: `scripts/`, `templates/`, and `reference/`. A skill must not refer to a file outside `skills/`, because `npx skills add` copies only the skill folders. A unit test checks this.
 
 The eval cases are in `evals/`. Each eval run calls the model and uses your plan or your API account.
 

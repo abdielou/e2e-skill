@@ -3,7 +3,7 @@
 Input: the approved `scenario.md`. Output: a `scenario.spec.ts` that proves each Expected item, a run result, and a report for the human.
 `e2e` is the helper script command from `SKILL.md`. `<path>` is `<area>/<scenario>`.
 
-The rules of `reference/contract.md` apply. Do not edit `scenario.md` in this procedure.
+The rules of `reference/contract.md` in this folder apply. Do not edit `scenario.md` in this procedure.
 
 ## 1. Read the scenario
 
@@ -134,6 +134,10 @@ A trace records each typed value. Thus a login scenario needs these three steps:
 
 1. Run `e2e check <path>`. Correct the spec until the output is `OK`.
 2. Start the `e2e:spec-reviewer` subagent. Give it the paths of the scenario and the spec. Wait for its result before the next step.
+   - If that subagent type does not exist, start a general subagent. Tell it to read `review.md` in this folder and follow it. Give it the full path of `review.md` and the two paths.
+   - If you cannot start a subagent, read `review.md` and do the review yourself. Tell the human that the author of the spec also did the review.
+
+   Do not skip the review. `e2e check` does not replace it: the check finds a missing step, and the review finds an assertion that proves too little.
 3. Apply each item in its `Must fix` list.
 4. For each item in its `Assertion concerns` list, make the assertion prove the full Expected text. If the application does not permit that, keep the strict assertion and record a finding.
 5. Run `e2e check <path>` again.

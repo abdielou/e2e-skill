@@ -1,13 +1,15 @@
-// Unit tests for scripts/e2e.mjs. Run: node --test tests/
+// Unit tests for skills/run/scripts/e2e.mjs. Run: node --test tests/
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { test } from "node:test";
+import { createHash } from "node:crypto";
 import { fileURLToPath } from "node:url";
 import {
   UserError,
+  specWasRun,
   assertionChanges,
   assertionFingerprint,
   buildStatus,
@@ -22,7 +24,7 @@ import {
   renderStatus,
   scenarioPaths,
   summarizeReport,
-} from "../scripts/e2e.mjs";
+} from "../skills/run/scripts/e2e.mjs";
 
 const SCENARIO = `# Login Flow
 
@@ -344,7 +346,7 @@ test("parseCoverage reads the Path column and supports a catalog without it", ()
 });
 
 test("the config template has a CommonJS form and an ES module form, with each line ending", () => {
-  const file = path.join(path.dirname(fileURLToPath(import.meta.url)), "..", "templates", "playwright.config.ts");
+  const file = path.join(path.dirname(fileURLToPath(import.meta.url)), "..", "skills", "run", "templates", "playwright.config.ts");
   const lf = fs.readFileSync(file, "utf8").replace(/\r\n/g, "\n");
   for (const text of [lf, lf.replace(/\n/g, "\r\n")]) {
     const commonjs = renderConfigTemplate(text, false);
@@ -434,11 +436,44 @@ test("assertionChanges ignores a change to actions and reports a change to proof
 });
 
 function runGuard(payload) {
-  const guard = path.join(path.dirname(fileURLToPath(import.meta.url)), "..", "scripts", "guard.mjs");
+  const guard = path.join(path.dirname(fileURLToPath(import.meta.url)), "..", "skills", "run", "scripts", "guard.mjs");
   const child = spawnSync(process.execPath, [guard], { input: JSON.stringify(payload), encoding: "utf8" });
   assert.equal(child.status, 0);
   return child.stdout ? JSON.parse(child.stdout).hookSpecificOutput : null;
 }
+
+test("each subagent body is the same as the checklist file of its skill", () => {
+  const root = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
+  const body = (file) =>
+    fs
+      .readFileSync(path.join(root, file), "utf8")
+      .replace(/\r\n/g, "\n")
+      .replace(/^---\n[\s\S]*?\n---\n/, "")
+      .trim();
+  assert.equal(body("agents/spec-reviewer.md"), body("skills/run/review.md"));
+  assert.equal(body("agents/coverage-scanner.md"), body("skills/explore/scan.md"));
+});
+
+test("each path in a skill file exists and stays in the skills folder", () => {
+  const root = path.join(path.dirname(fileURLToPath(import.meta.url)), "..", "skills");
+  const files = fs
+    .readdirSync(root, { recursive: true })
+    .map(String)
+    .filter((f) => f.endsWith(".md"));
+  assert.ok(files.length > 8);
+  let found = 0;
+  for (const f of files) {
+    const text = fs.readFileSync(path.join(root, f), "utf8");
+    assert.ok(!text.includes("CLAUDE_PLUGIN_ROOT"), f);
+    for (const m of text.matchAll(/\$\{CLAUDE_SKILL_DIR\}\/([^\s"'`)]+)/g)) {
+      const target = path.join(root, path.dirname(f), m[1]);
+      assert.ok(fs.existsSync(target), f + " -> " + m[1]);
+      assert.ok(!path.relative(root, target).startsWith(".."), f + " -> " + m[1]);
+      found += 1;
+    }
+  }
+  assert.ok(found >= 10);
+});
 
 test("the guard asks the human before an agent reads the credentials or the saved session", () => {
   const read = (file) => runGuard({ hook_event_name: "PreToolUse", tool_name: "Read", tool_input: { file_path: file } });
@@ -490,6 +525,24 @@ test("the guard asks the human only for a change to the proof of an established 
     // Other files, and input that the guard cannot read, pass.
     assert.equal(runGuard({ tool_name: "Edit", tool_input: { file_path: path.join(root, "src", "app.ts"), old_string: "a", new_string: "b" } }), null);
     assert.equal(runGuard({}), null);
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("specWasRun is true only when the last run record is for the current spec text", () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "e2e-wasrun-"));
+  try {
+    const paths = scenarioPaths("notes/add", root);
+    fs.mkdirSync(paths.dir, { recursive: true });
+    fs.mkdirSync(path.dirname(paths.record), { recursive: true });
+    fs.writeFileSync(paths.spec, "const a = 1;\n");
+    assert.equal(specWasRun("notes/add", root), false);
+    const specHash = createHash("sha256").update("const a = 1;\n").digest("hex");
+    fs.writeFileSync(paths.record, JSON.stringify({ specHash }));
+    assert.equal(specWasRun("notes/add", root), true);
+    fs.writeFileSync(paths.spec, "const a = 2;\n");
+    assert.equal(specWasRun("notes/add", root), false);
   } finally {
     fs.rmSync(root, { recursive: true, force: true });
   }

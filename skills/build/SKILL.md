@@ -17,8 +17,30 @@ Request: `$ARGUMENTS`
 
 Read these two files first:
 
-- `${CLAUDE_PLUGIN_ROOT}/reference/scenario-format.md`
-- `${CLAUDE_PLUGIN_ROOT}/reference/project-layout.md`
+- `${CLAUDE_SKILL_DIR}/../run/reference/scenario-format.md`
+- `${CLAUDE_SKILL_DIR}/../run/reference/project-layout.md`
+
+These files are in the `run` skill, which is installed next to this skill. If a path starts with a `---
+name: build
+description: Use when the user asks to write, add, or change an E2E test scenario, says "build scenario", "write e2e scenario", "create test scenario", "write a test for", "add e2e test", or "e2e build", or invokes /e2e:build with a topic or a ticket.
+argument-hint: "<area>/<scenario> | --ticket <number>"
+---
+
+# E2E Build
+
+Write a `scenario.md` together with the human. The scenario is the contract that each generated test must prove, thus the human approves each word before you write the file.
+
+Request: `$ARGUMENTS`
+
+```
+/e2e:build <topic>             # Write a scenario from a topic
+/e2e:build --ticket 1234       # Write a scenario from a work item
+```
+
+Read these two files first:
+
+- `${CLAUDE_SKILL_DIR}/../run/reference/scenario-format.md`
+ variable that has no value, use the folder of this file in its place. If the `run` folder is missing, tell the human to install the `run` skill from `abdielou/e2e-skill`. Then stop.
 
 ## Procedure
 

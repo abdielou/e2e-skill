@@ -703,6 +703,19 @@ function commandHash(args) {
   console.log(contract.hash);
 }
 
+// True if the last run record of the scenario is for the current text of its spec.
+export function specWasRun(ref, root = process.cwd()) {
+  const paths = scenarioPaths(ref, root);
+  const record = readText(paths.record);
+  const spec = readText(paths.spec);
+  if (!record || !spec) return false;
+  try {
+    return JSON.parse(record).specHash === createHash("sha256").update(spec).digest("hex");
+  } catch {
+    return false;
+  }
+}
+
 function commandCheck(args) {
   const asJson = flag(args, "--json");
   const refs = args.length ? [scenarioPaths(args[0]).ref] : listScenarioRefs();
@@ -718,6 +731,9 @@ function commandCheck(args) {
       console.log(`${result.state === "ready" ? "OK  " : "FAIL"}  ${result.ref}: ${STATE_TEXT[result.state]}`);
       for (const error of result.errors) console.log(`      - ${error}`);
       for (const skip of result.skips) console.log(`      ! ${skip.kind} at line ${skip.line}: a human must approve each skipped test`);
+      if (args.length && result.state === "ready" && !specWasRun(result.ref)) {
+        console.log("      next: this spec is new or it changed after its last run. Review it before the run: follow review.md in the run skill.");
+      }
     }
     if (!results.length) console.log("No scenarios found.");
   }

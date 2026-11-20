@@ -20,12 +20,14 @@ Request: `$ARGUMENTS`
 
 | Name in this skill | Command |
 |--------------------|---------|
-| `e2e` | `node "${CLAUDE_PLUGIN_ROOT}/scripts/e2e.mjs"` |
+| `e2e` | `node "${CLAUDE_SKILL_DIR}/scripts/e2e.mjs"` |
 | Browser CLI | `npx playwright cli` |
 
-Run each command from the project root.
+Run each command from the project root. If a path starts with a `$` variable that has no value, use the folder of this file in its place.
 
-**Read `${CLAUDE_PLUGIN_ROOT}/reference/contract.md` first.** Its rules apply to each step below.
+**Do not install a browser.** Do not run `npx playwright install`, with or without a browser name. If a command says that a browser executable is missing, tell the human to run `npx playwright install chromium`. Then stop. The install can remove browser builds that other projects use.
+
+**Read `${CLAUDE_SKILL_DIR}/reference/contract.md` first.** Its rules apply to each step below.
 
 ## Procedure
 

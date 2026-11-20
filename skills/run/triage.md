@@ -38,7 +38,7 @@ A failed test is information. Find the cause first. The cause decides who can ma
 |-------|-------|-------------|-------------|
 | **Environment** | The application does not answer. The auth setup failed. The page is the login page. Test data is missing. A browser is not installed | Agent | Correct the environment, or tell the human what to correct. Do not change the spec. Run again |
 | **Action drift** | An action fails: a locator is not found, or a page is not ready. The application still does what the scenario describes | Agent | Repair the actions. Do the flow with the browser CLI and use the code that it prints. Do not change an Expected step |
-| **Assertion drift** | An Expected step fails, but the page shows the result that the Expected text states. Example: the element has a new role | Human | Show the assertion before and after. Ask with **AskUserQuestion**. Edit only after approval. The plugin shows the edit to the human one more time |
+| **Assertion drift** | An Expected step fails, but the page shows the result that the Expected text states. Example: the element has a new role | Human | Show the assertion before and after. Ask with **AskUserQuestion**. Edit only after approval. If the plugin hook is installed, it shows the edit to the human one more time |
 | **Behavior change** | The page does not show the result that the Expected text states | Human | Stop. Do not edit the spec. Do not edit the scenario. Report as in section 3 |
 
 If you cannot tell assertion drift from behavior change, it is a behavior change.

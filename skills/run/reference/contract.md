@@ -29,7 +29,7 @@ The helper script checks rules 1 to 4 and rule 8. Run its `check` command after 
 ## Rules for the agent
 
 1. **A failed test can be the correct result.** If the application does not do what an `Expected` item says, the test must fail. Report it. Do not change the expectation to get a pass.
-2. **A change to an assertion needs approval.** Show the assertion before and after. Ask the human. Then edit. The plugin also stops such an edit and shows it to the human. If the edit is denied, do not make the change in a different way.
+2. **A change to an assertion needs approval.** Show the assertion before and after. Ask the human. Then edit. If the plugin hook is installed, it also stops such an edit and shows it to the human. If the edit is denied, do not make the change in a different way.
 3. **A skipped test needs approval.** Do not add `test.skip`, `test.fixme`, or `test.fail` unless the human made that decision in this conversation.
 4. **Do not touch credentials.** Do not read `.env` or `.auth/state.json`. Do not type a password with the browser CLI. Do not ask for a password in the conversation.
 5. **Do not start the application.** If it does not answer, tell the human and stop.

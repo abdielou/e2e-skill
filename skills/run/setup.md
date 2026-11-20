@@ -55,6 +55,10 @@ The password must not go into this conversation. The setup test reads it from th
 
 The saved session expires. When a run shows the login page, do this procedure again and run the spec again.
 
+## A missing browser
+
+If the setup test says that a browser executable is missing, tell the human to run `npx playwright install chromium`. Do not run it yourself. Then stop.
+
 ## Projects from plugin version 2
 
 | Version 2 item | Action |

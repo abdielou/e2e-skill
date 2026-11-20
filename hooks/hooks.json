@@ -8,7 +8,7 @@
             "type": "command",
             "command": "node",
             "args": [
-              "${CLAUDE_PLUGIN_ROOT}/scripts/guard.mjs"
+              "${CLAUDE_PLUGIN_ROOT}/skills/run/scripts/guard.mjs"
             ],
             "if": "Edit(**/scenario.spec.ts)",
             "timeout": 10,
@@ -23,7 +23,7 @@
             "type": "command",
             "command": "node",
             "args": [
-              "${CLAUDE_PLUGIN_ROOT}/scripts/guard.mjs"
+              "${CLAUDE_PLUGIN_ROOT}/skills/run/scripts/guard.mjs"
             ],
             "if": "Write(**/scenario.spec.ts)",
             "timeout": 10,
@@ -38,7 +38,7 @@
             "type": "command",
             "command": "node",
             "args": [
-              "${CLAUDE_PLUGIN_ROOT}/scripts/guard.mjs"
+              "${CLAUDE_PLUGIN_ROOT}/skills/run/scripts/guard.mjs"
             ],
             "if": "Read(**/e2e-scenarios/.env)",
             "timeout": 10
@@ -47,7 +47,7 @@
             "type": "command",
             "command": "node",
             "args": [
-              "${CLAUDE_PLUGIN_ROOT}/scripts/guard.mjs"
+              "${CLAUDE_PLUGIN_ROOT}/skills/run/scripts/guard.mjs"
             ],
             "if": "Read(**/e2e-scenarios/.auth/state.json)",
             "timeout": 10
