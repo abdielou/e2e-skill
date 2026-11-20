@@ -466,13 +466,31 @@ test("each path in a skill file exists and stays in the skills folder", () => {
     const text = fs.readFileSync(path.join(root, f), "utf8");
     assert.ok(!text.includes("CLAUDE_PLUGIN_ROOT"), f);
     for (const m of text.matchAll(/\$\{CLAUDE_SKILL_DIR\}\/([^\s"'`)]+)/g)) {
-      const target = path.join(root, path.dirname(f), m[1]);
+      // An install from skills.sh names each folder e2e-<skill>. In this repository the folder is <skill>.
+      const target = path.join(root, path.dirname(f), m[1].replace(/^\.\.\/e2e-/, "../"));
       assert.ok(fs.existsSync(target), f + " -> " + m[1]);
       assert.ok(!path.relative(root, target).startsWith(".."), f + " -> " + m[1]);
       found += 1;
     }
+    for (const m of text.matchAll(/<run>\/([^\s"'`)]+)/g)) {
+      assert.ok(fs.existsSync(path.join(root, "run", m[1])), f + " -> <run>/" + m[1]);
+      found += 1;
+    }
   }
   assert.ok(found >= 10);
+});
+
+test("each SKILL.md has one frontmatter block and the name e2e-<folder>", () => {
+  const root = path.join(path.dirname(fileURLToPath(import.meta.url)), "..", "skills");
+  const skills = fs.readdirSync(root).filter((name) => fs.existsSync(path.join(root, name, "SKILL.md")));
+  assert.deepEqual(skills.sort(), ["build", "dashboard", "explore", "run"]);
+  for (const skill of skills) {
+    const text = fs.readFileSync(path.join(root, skill, "SKILL.md"), "utf8").replace(/\r\n/g, "\n");
+    assert.ok(text.startsWith("---\nname: e2e-" + skill + "\n"), skill);
+    assert.equal(text.match(/^name: /gm).length, 1, skill);
+    assert.equal(text.match(/^# /gm).filter(Boolean).length >= 1, true, skill);
+    assert.equal(text.split("\n# E2E ").length, 2, skill + " has a duplicated body");
+  }
 });
 
 test("the guard asks the human before an agent reads the credentials or the saved session", () => {

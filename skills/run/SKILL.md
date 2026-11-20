@@ -1,5 +1,5 @@
 ---
-name: run
+name: e2e-run
 description: Use when the user asks to run, generate, regenerate, or repair the Playwright E2E test of a scenario, to make a failing E2E test pass, or to set up the login for E2E tests. Use before each change to a file in an e2e-scenarios folder, such as scenario.spec.ts or auth.setup.ts. Use when the user says "run e2e", "e2e run", "generate spec", or "why does the e2e test fail", or invokes /e2e:run with a scenario path such as deals/creation.
 argument-hint: "<area>/<scenario> [--regenerate] [--headless]"
 ---

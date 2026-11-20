@@ -1,5 +1,5 @@
 ---
-name: build
+name: e2e-build
 description: Use when the user asks to write, add, or change an E2E test scenario, says "build scenario", "write e2e scenario", "create test scenario", "write a test for", "add e2e test", or "e2e build", or invokes /e2e:build with a topic or a ticket.
 argument-hint: "<area>/<scenario> | --ticket <number>"
 ---
@@ -17,30 +17,10 @@ Request: `$ARGUMENTS`
 
 Read these two files first:
 
-- `${CLAUDE_SKILL_DIR}/../run/reference/scenario-format.md`
-- `${CLAUDE_SKILL_DIR}/../run/reference/project-layout.md`
+- `<run>/reference/scenario-format.md`
+- `<run>/reference/project-layout.md`
 
-These files are in the `run` skill, which is installed next to this skill. If a path starts with a `---
-name: build
-description: Use when the user asks to write, add, or change an E2E test scenario, says "build scenario", "write e2e scenario", "create test scenario", "write a test for", "add e2e test", or "e2e build", or invokes /e2e:build with a topic or a ticket.
-argument-hint: "<area>/<scenario> | --ticket <number>"
----
-
-# E2E Build
-
-Write a `scenario.md` together with the human. The scenario is the contract that each generated test must prove, thus the human approves each word before you write the file.
-
-Request: `$ARGUMENTS`
-
-```
-/e2e:build <topic>             # Write a scenario from a topic
-/e2e:build --ticket 1234       # Write a scenario from a work item
-```
-
-Read these two files first:
-
-- `${CLAUDE_SKILL_DIR}/../run/reference/scenario-format.md`
- variable that has no value, use the folder of this file in its place. If the `run` folder is missing, tell the human to install the `run` skill from `abdielou/e2e-skill`. Then stop.
+`<run>` is the folder of the run skill, next to the folder of this skill. Its name is `run` in the plugin and `e2e-run` in an install from skills.sh. Read each file with `<run>` = `${CLAUDE_SKILL_DIR}/../run`. If the file is not found, do it again with `<run>` = `${CLAUDE_SKILL_DIR}/../e2e-run`. Do not examine the folders first. If a path starts with a `$` variable that has no value, use the folder of this file in its place. If the two paths fail, tell the human to install the `e2e-run` skill from `abdielou/e2e-skill`. Then stop.
 
 ## Procedure
 

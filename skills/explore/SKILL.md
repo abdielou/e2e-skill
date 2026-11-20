@@ -1,5 +1,5 @@
 ---
-name: explore
+name: e2e-explore
 description: Use when the user asks which features have no E2E test, says "explore coverage", "find coverage gaps", "scan for e2e", "what needs testing", or "e2e explore", or invokes /e2e:explore.
 ---
 
@@ -7,18 +7,9 @@ description: Use when the user asks which features have no E2E test, says "explo
 
 Find the user-facing features of the application and write them to the catalog `e2e-scenarios/COVERAGE.md`. The dashboard compares the catalog with the scenarios on disk.
 
-Read `${CLAUDE_SKILL_DIR}/../run/reference/project-layout.md` first.
+Read `<run>/reference/project-layout.md` first.
 
-That file is in the `run` skill, which is installed next to this skill. If a path starts with a `---
-name: explore
-description: Use when the user asks which features have no E2E test, says "explore coverage", "find coverage gaps", "scan for e2e", "what needs testing", or "e2e explore", or invokes /e2e:explore.
----
-
-# E2E Explore
-
-Find the user-facing features of the application and write them to the catalog `e2e-scenarios/COVERAGE.md`. The dashboard compares the catalog with the scenarios on disk.
-
- variable that has no value, use the folder of this file in its place. If the `run` folder is missing, tell the human to install the `run` skill from `abdielou/e2e-skill`. Then stop.
+`<run>` is the folder of the run skill, next to the folder of this skill. Its name is `run` in the plugin and `e2e-run` in an install from skills.sh. Read the file with `<run>` = `${CLAUDE_SKILL_DIR}/../run`. If the file is not found, do it again with `<run>` = `${CLAUDE_SKILL_DIR}/../e2e-run`. Do not examine the folders first. If a path starts with a `$` variable that has no value, use the folder of this file in its place. If the two paths fail, tell the human to install the `e2e-run` skill from `abdielou/e2e-skill`. Then stop.
 
 ## Procedure
 

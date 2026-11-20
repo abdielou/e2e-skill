@@ -44,7 +44,7 @@ The four skills are also on [skills.sh](https://skills.sh/abdielou/e2e-skill). T
 npx skills add abdielou/e2e-skill
 ```
 
-Install all four skills. The `run` skill holds the helper script, and the other three skills use it.
+Install all four skills. The `e2e-run` skill holds the helper script, and the other three skills use it.
 
 This install has less control than the plugin. For Claude Code, use the plugin.
 
@@ -54,7 +54,7 @@ This install has less control than the plugin. For Claude Code, use the plugin.
 | The hook that stops an assertion change before the edit | Yes | No. The script shows the change after the edit, in the run result |
 | The hook that stops a read of your credentials | Yes | No. Only the skill text tells the agent not to read them |
 | A separate reviewer for each generated spec | Yes | Only if the agent can start a subagent |
-| Command names | `/e2e:run`, `/e2e:build`, `/e2e:explore`, `/e2e:dashboard` | `run`, `build`, `explore`, `dashboard` |
+| Command names | `/e2e:run`, `/e2e:build`, `/e2e:explore`, `/e2e:dashboard` | `e2e-run`, `e2e-build`, `e2e-explore`, `e2e-dashboard` |
 | Tested | Claude Code on Windows | Claude Code on Windows. Other agents are not tested |
 
 ## Usage
